@@ -1,35 +1,39 @@
 /* ==========================================================================
-   INTO THE PEAKS - SUPREME ADMIN ENGINE (v31.0)
-   Location: Srinagar Garhwal | Powered by Firebase
-   Functions: Tours, Blogs, Bookings, Hybrid Gallery, Revenue, Inventory
+   INTO THE PEAKS - SUPREME ADMIN ENGINE (v32.0 ERROR-FREE)
+   Srinagar Garhwal Edition | Full Hybrid Integration
    ========================================================================== */
 
-// 1. GLOBAL INITIALIZATION (Anti-Conflict Mode)
-var db = db || firebase.database();
-var dbRef = dbRef || db.ref('itp_data');
-var storage = storage || firebase.storage();
-var base64String = base64String || "";
+// 1. GLOBAL SAFETY INITIALIZATION (Preventing "Already Declared" Errors)
+if (typeof window.itpInitialized === 'undefined') {
+    window.itpInitialized = true;
+    window.db = firebase.database();
+    window.dbRef = window.db.ref('itp_data');
+    window.storage = firebase.storage();
+}
 
-// 2. TAB NAVIGATION SYSTEM
+// Global scope check for base64
+if (typeof window.base64String === 'undefined') {
+    window.base64String = "";
+}
+
+// 2. TAB NAVIGATION
 window.showTab = function(id, btn) {
-    // Sabhi contents aur buttons ko reset karo
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.admin-nav-btn').forEach(b => b.classList.remove('active'));
     
-    // Target tab ko activate karo
     const target = document.getElementById(id);
     if(target) {
         target.classList.add('active');
         btn.classList.add('active');
     }
     
-    // Data Load Triggers
+    // Auto Load Data
     if(id === 'manageTab') window.loadInventory();
     if(id === 'bookingTab') window.loadBookings();
     if(id === 'galleryTab') window.loadAdminGallery();
 };
 
-// 3. MEDIA UTILITIES (YouTube & Image Preview)
+// 3. MEDIA UTILS
 function extractYTID(url) {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     const match = url.match(regExp);
@@ -40,21 +44,21 @@ window.preview = function(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = (e) => {
-            base64String = e.target.result;
-            const previewBox = document.getElementById('previewBox');
-            const previewImg = document.getElementById('previewImg');
-            if(previewImg) previewImg.src = e.target.result;
-            if(previewBox) previewBox.style.display = 'block';
+            window.base64String = e.target.result;
+            const pBox = document.getElementById('previewBox');
+            if(pBox) {
+                document.getElementById('previewImg').src = e.target.result;
+                pBox.style.display = 'block';
+            }
         };
         reader.readAsDataURL(input.files[0]);
     }
 };
 
-// 4. CONTENT MANAGEMENT (Tours & Blogs)
+// 4. CONTENT SAVE (Tours & Blogs)
 window.saveToCloud = async function(e) {
     e.preventDefault();
     const btn = e.target.querySelector('button');
-    const originalText = btn.innerText;
     btn.innerText = "Syncing...";
     btn.disabled = true;
 
@@ -62,7 +66,7 @@ window.saveToCloud = async function(e) {
     const itemData = {
         title: document.getElementById('title').value,
         price: document.getElementById('price').value || 0,
-        img: base64String || document.getElementById('imgUrl').value || "assets/placeholder.jpg",
+        img: window.base64String || document.getElementById('imgUrl').value || "assets/placeholder.jpg",
         desc: document.getElementById('desc').value,
         content: document.getElementById('content').value || "",
         itinerary: document.getElementById('itinerary').value || "",
@@ -70,17 +74,17 @@ window.saveToCloud = async function(e) {
     };
 
     try {
-        await dbRef.child(type === 'tour' ? 'tours' : 'blogs').push(itemData);
-        alert("Bhai, Archive Update Ho Gaya! 🏔️");
+        await window.dbRef.child(type === 'tour' ? 'tours' : 'blogs').push(itemData);
+        alert("Success: Content Published! 🏔️");
         location.reload(); 
-    } catch (error) {
-        alert("Error: " + error.message);
+    } catch (err) {
+        alert("Error: " + err.message);
         btn.disabled = false;
-        btn.innerText = originalText;
+        btn.innerText = "Save to Database";
     }
 };
 
-// 5. HYBRID GALLERY SYSTEM (Photos + YouTube)
+// 5. HYBRID GALLERY SYSTEM
 window.saveSupremeAlbum = async function() {
     const files = document.getElementById('albumFiles').files;
     const ytLink = document.getElementById('ytLink').value;
@@ -90,7 +94,7 @@ window.saveSupremeAlbum = async function() {
     const btn = document.getElementById('uploadBtn');
 
     if (!title || (files.length === 0 && !ytLink)) {
-        return alert("Bhai, Title aur kam se kam ek Photo ya YouTube link toh dalo!");
+        return alert("Bhai, kam se kam ek Photo ya YouTube link toh dalo!");
     }
 
     btn.disabled = true;
@@ -98,33 +102,28 @@ window.saveSupremeAlbum = async function() {
     let mediaArray = [];
 
     try {
-        // Handle YouTube
         if(ytLink) {
             const ytID = extractYTID(ytLink);
-            if(ytID) {
-                mediaArray.push({
-                    url: `https://www.youtube.com/embed/${ytID}`,
-                    thumbnail: `https://img.youtube.com/vi/${ytID}/maxresdefault.jpg`,
-                    type: 'youtube'
-                });
-            }
+            if(ytID) mediaArray.push({
+                url: `https://www.youtube.com/embed/${ytID}`,
+                thumbnail: `https://img.youtube.com/vi/${ytID}/maxresdefault.jpg`,
+                type: 'youtube'
+            });
         }
 
-        // Handle Photos via Firebase Storage
         for (let i = 0; i < files.length; i++) {
             status.innerText = `Uploading Photo ${i+1}/${files.length}...`;
-            const file = files[i];
-            const storageRef = storage.ref(`gallery/${Date.now()}_${file.name}`);
-            const task = await storageRef.put(file);
+            const storageRef = window.storage.ref(`gallery/${Date.now()}_${files[i].name}`);
+            const task = await storageRef.put(files[i]);
             const url = await task.ref.getDownloadURL();
             mediaArray.push({ url: url, type: 'image' });
         }
 
-        await dbRef.child('gallery').push({
+        await window.dbRef.child('gallery').push({
             title, description: desc, media: mediaArray, timestamp: Date.now()
         });
 
-        alert("Gallery Synchronized! 📷");
+        alert("Gallery Updated Successfully! 📷");
         location.reload();
     } catch (err) {
         alert("Locha: " + err.message);
@@ -133,13 +132,13 @@ window.saveSupremeAlbum = async function() {
     }
 };
 
-// 6. DATA LOADERS (Inventory, Bookings, Gallery)
+// 6. LOADERS
 window.loadBookings = function() {
     const list = document.getElementById('bookingList');
     const revDisp = document.getElementById('totalRevenueDisplay');
     if (!list) return;
 
-    dbRef.child('bookings').on('value', (snap) => {
+    window.dbRef.child('bookings').on('value', (snap) => {
         const data = snap.val();
         list.innerHTML = "";
         let total = 0;
@@ -153,7 +152,7 @@ window.loadBookings = function() {
                         <div>
                             <span class="trek-tag">${b.trek || 'Trek'}</span>
                             <div class="cust-name">${b.name}</div>
-                            <div class="cust-meta"><i class="fas fa-phone"></i> ${b.phone} | <i class="fas fa-users"></i> ${b.groupSize || 1}</div>
+                            <div class="cust-meta"><i class="fas fa-phone"></i> ${b.phone}</div>
                         </div>
                         <div style="text-align: right;">
                             <div class="price-display">₹${amt.toLocaleString('en-IN')}</div>
@@ -166,23 +165,10 @@ window.loadBookings = function() {
     });
 };
 
-window.loadInventory = function() {
-    const list = document.getElementById('inventoryList');
-    if (!list) return;
-    dbRef.on('value', (snap) => {
-        const val = snap.val();
-        list.innerHTML = "";
-        if (val) {
-            if(val.tours) Object.keys(val.tours).forEach(id => list.innerHTML += createRow(id, val.tours[id], 'tours'));
-            if(val.blogs) Object.keys(val.blogs).forEach(id => list.innerHTML += createRow(id, val.blogs[id], 'blogs'));
-        }
-    });
-};
-
 window.loadAdminGallery = function() {
     const list = document.getElementById('adminGalleryList');
     if(!list) return;
-    dbRef.child('gallery').on('value', (snap) => {
+    window.dbRef.child('gallery').on('value', (snap) => {
         const data = snap.val();
         list.innerHTML = "";
         if(data) {
@@ -192,36 +178,38 @@ window.loadAdminGallery = function() {
                 list.innerHTML += `
                     <div class="admin-gallery-card">
                         <img src="${thumb}">
-                        <div style="font-weight:700; margin:10px 0; font-size:0.9rem;">${alb.title}</div>
-                        <button onclick="window.deleteFromCloud('${id}', 'gallery')" class="del-btn-small">Delete Album</button>
+                        <div style="font-weight:700; font-size:0.9rem;">${alb.title}</div>
+                        <button onclick="window.deleteFromCloud('${id}', 'gallery')" class="del-btn-small">Delete</button>
                     </div>`;
             });
         }
     });
 };
 
-function createRow(id, item, type) {
-    return `<div class="booking-item" style="margin-bottom:10px;">
-                <div><strong>[${type.toUpperCase()}]</strong> ${item.title}</div>
-                <button onclick="window.deleteFromCloud('${id}', '${type}')" class="del-booking-btn">Delete</button>
-            </div>`;
-}
-
-// 7. GLOBAL DELETE ENGINE
-window.deleteFromCloud = async function(id, path) {
-    if(confirm("Bhai, pakka uda doon? Ye wapas nahi aayega!")) {
-        try {
-            await dbRef.child(path).child(id).remove();
-            console.log(`${id} removed from ${path}`);
-        } catch (e) {
-            alert("Delete failed: " + e.message);
+window.loadInventory = function() {
+    const list = document.getElementById('inventoryList');
+    if (!list) return;
+    window.dbRef.on('value', (snap) => {
+        const val = snap.val();
+        list.innerHTML = "";
+        if (val) {
+            if(val.tours) Object.keys(val.tours).forEach(id => list.innerHTML += `<div class="booking-item"><div><strong>[TOUR]</strong> ${val.tours[id].title}</div><button onclick="window.deleteFromCloud('${id}', 'tours')" class="del-booking-btn">Delete</button></div>`);
+            if(val.blogs) Object.keys(val.blogs).forEach(id => list.innerHTML += `<div class="booking-item"><div><strong>[BLOG]</strong> ${val.blogs[id].title}</div><button onclick="window.deleteFromCloud('${id}', 'blogs')" class="del-booking-btn">Delete</button></div>`);
         }
+    });
+};
+
+// 7. DELETE SYSTEM
+window.deleteFromCloud = async function(id, path) {
+    if(confirm("Confirm Delete?")) {
+        await window.dbRef.child(path).child(id).remove();
+        if(path === 'gallery') window.loadAdminGallery();
     }
 };
 
-// 8. INITIALIZE
+// 8. AUTO START
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("ITP Admin Hub v31.0: Operational.");
+    console.log("ITP Admin Hub v32.0 Ready.");
     window.loadInventory();
     window.loadBookings();
 });

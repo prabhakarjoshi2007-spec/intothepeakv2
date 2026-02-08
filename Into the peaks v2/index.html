@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>into the peaks | Uttarakhand Trekking & Offbeat Tours</title>
+    <meta name="description" content="Into The Peaks - Your gateway to unexplored Himalayan trails. Based in Srinagar Garhwal, offering certified guided treks to Auli, Chopta, Badrinath and more.">
+    
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script src="js/render.js"></script>
+<body>
+
+<nav id="navbar">
+    <div class="nav-container container">
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-circle">
+                <img src="assets/LOGO.jpeg" alt="IntoThePeaks Logo" >
+            </div>
+            <div class="logo-text-group">
+                <span class="brand-name">IntoThe<span>Peaks</span></span>
+            </div>
+        </a>
+
+        <ul class="nav-links" id="mainMenu">
+            <li><a href="index.html" class="nav-item">Home</a></li>
+            <li><a href="packages.html" class="nav-item">Packages</a></li>
+            <li><a href="about.html" class="nav-item">Our Story</a></li>
+            <li><a href="gallery.html" class="nav-item">Gallery</a></li>
+            <li><a href="blogs.html" class="nav-item">Stories</a></li>
+            <li><a href="contact.html" class="nav-item">Contact</a></li>
+            <li><a href="tel:+918057608837" class="nav-cta-gold">Call Us</a></li>
+        </ul>
+
+        <div class="hamburger" id="navTrigger" onclick="togglePeaksMenu()">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </div>
+    </div>
+</nav>
+
+
+    <main id="homeContent">
+        
+        <section class="hero" id="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <span class="hero-tagline"></span>
+                    <h1 >Experience The <span class="highlight">Unexplored</span> Himalayan Trails</h1>
+                    <p>Authentic trekking experiences, spiritual journeys, and offbeat adventures guided by certified local mountaineers. Explore the heart of Garhwal with safety and comfort.</p>
+                    
+                    <div class="hero-action-btns">
+                        <a href="packages.html" class="btn-primary">
+                            <i class="fas fa-mountain"></i> View All Treks
+                        </a>
+                        <a href="contact.html" class="btn-secondary">
+                            Get A Callback
+                        </a>
+                    </div>
+
+                    <div class="hero-trust">
+                        <div class="trust-item"><i class="fas fa-check-circle"></i> Certified NIM Guides</div>
+                        <div class="trust-item"><i class="fas fa-shield-alt"></i> 100% Safety Track Record</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual-overlay"></div>
+        </section>
+
+        <section class="features-section" id="why-us">
+            <div class="container">
+                <div class="section-intro text-center">
+                    <h2 class="section-title">Why IntoThePeaks?</h2>
+                    <p class="section-subtitle">We don't just sell tours; we share our homeland with you.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon-box"><i class="fas fa-map-marked-alt"></i></div>
+                        <h3>True Local Expertise</h3>
+                        <p>Our team consists of locals from Srinagar Garhwal who know every shortcut, meadow, and hidden stream.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box"><i class="fas fa-user-shield"></i></div>
+                        <h3>Certified Safety</h3>
+                        <p>Every trek leader is professionally trained in mountaineering and high-altitude first aid.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box"><i class="fas fa-leaf"></i></div>
+                        <h3>Sustainable Travel</h3>
+                        <p>We follow strict eco-guidelines to ensure the Himalayas remain pristine for future generations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="trending-section" id="trending">
+            <div class="container">
+                <div class="section-header-flex">
+                    <div class="header-text">
+                        <h2 class="section-title">Trending Adventures</h2>
+                        <p>Handpicked journeys that our travelers love the most.</p>
+                    </div>
+                    <a href="packages.html" class="view-all-link">Browse All Packages <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div id="journeyDisplay" class="package-grid">
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="destinations-section">
+            <div class="container">
+                <h2 class="section-title text-center">Destinations We Cover</h2>
+                <div class="dest-grid">
+                    <div class="dest-item">
+                        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23" alt="Auli Skiing">
+                        <div class="dest-info"><h3>Auli</h3></div>
+                    </div>
+                    <div class="dest-item">
+                        <img src="https://images.pexels.com/photos/19877298/pexels-photo-19877298.jpeg" alt="Chopta Meadows">
+                        <div class="dest-info"><h3>Chopta</h3></div>
+                    </div>
+                    <div class="dest-item">
+                        <img src="https://images.pexels.com/photos/35408529/pexels-photo-35408529.jpeg" alt="Badrinath Temple">
+                        <div class="dest-info"><h3>Badrinath</h3></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col brand-col">
+                    <div class="footer-logo">IntoThe<span>Peaks</span></div>
+                    <p>into the peaks is a premier trekking and adventure agency based in Srinagar Garhwal. We specialize in offbeat Himalayan trails and authentic Garhwali hospitality.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="packages.html">Trek Packages</a></li>
+                        <li><a href="about.html">About IntoThePeaks</a></li>
+                        <li><a href="blogs.html">Travel Stories</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Cancellation Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col contact-col">
+                    <h4>Reach Us</h4>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Friends Book Depot, Near Front Gate, HNBGU Birla Campus, Srinagar Garhwal, Uttarakhand 246174</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+91 8057608837</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>info@intothepeaks.in</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="bottom-flex">
+                    <p class="copyright-text" id="adminTrigger" class="footer-loc">© 2026 IntoThePeaks. All rights reserved.</p>
+                    <p class="design-credit">Made with ❤️ for the Himalayas</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/render.js"></script>
+    
+</body>
+</html>

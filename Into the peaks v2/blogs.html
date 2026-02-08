@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Himalayan Diaries | Blogs & Trekking Guides | Into The Peaks</title>
+    <meta name="description" content="Read authentic stories, trekking tips, and cultural insights from the heart of Srinagar Garhwal and the Uttarakhand Himalayas.">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNRaFaHvG83en8QhcjS1KFOPdlPWVdYCQ",
+    authDomain: "intothepeaks-c706d.firebaseapp.com",
+    databaseURL: "https://intothepeaks-c706d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "intothepeaks-c706d",
+    storageBucket: "intothepeaks-c706d.firebasestorage.app",
+    messagingSenderId: "499729300398",
+    appId: "1:499729300398:web:7f96b07a9df807b169663f",
+    measurementId: "G-BXDMHJCJ4R"
+  };
+
+  // Initialize Firebase (Only once)
+  if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+  }
+  const database = firebase.database();
+  console.log("IntoThePeaks Cloud: Connected!");
+</script>
+
+<script src="js/admin.js"></script> <script src="js/render.js"></script> 
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --blog-card-bg: #ffffff;
+            --blog-accent: #FFB800;
+        }
+
+        .blog-header-section {
+            padding: 160px 0 80px;
+            background: linear-gradient(rgba(43, 45, 66, 0.9), rgba(43, 45, 66, 0.8)), 
+                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            text-align: center;
+        }
+
+        .blog-header-section h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .blog-header-section p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Master Blog Container */
+        .blog-main-content {
+            padding: 100px 0;
+            background-color: var(--bg-light);
+        }
+
+        /* Featured Story Grid */
+        .featured-wrap {
+            margin-bottom: 80px;
+        }
+
+        .featured-card-large {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            background: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+            transition: var(--transition);
+        }
+
+        .featured-card-large:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.12);
+        }
+
+        .f-image {
+            position: relative;
+            min-height: 400px;
+            overflow: hidden;
+        }
+
+        .f-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .featured-card-large:hover .f-image img {
+            transform: scale(1.1);
+        }
+
+        .f-text {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .category-badge {
+            background: var(--primary);
+            color: var(--secondary);
+            font-weight: 800;
+            font-size: 0.8rem;
+            padding: 6px 16px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            width: fit-content;
+            margin-bottom: 25px;
+        }
+
+        /* Dynamic Grid System */
+        .blog-grid-system {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 40px;
+        }
+
+        .story-card {
+            background: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+
+        .story-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .story-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .story-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-info {
+            padding: 30px;
+        }
+
+        .story-info h3 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .story-info p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 992px) {
+            .featured-card-large { grid-template-columns: 1fr; }
+            .f-image { min-height: 300px; }
+            .f-text { padding: 40px 30px; }
+            .blog-grid-system { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <div class="nav-container container">
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-circle">
+                <img src="assets/LOGO.jpeg" alt="IntoThePeaks Logo">
+            </div>
+            <div class="logo-text-group">
+                <span class="brand-name">IntoThe<span>Peaks</span></span>
+            </div>
+        </a>
+
+        <ul class="nav-links" id="mainMenu">
+            <li><a href="index.html" class="nav-item">Home</a></li>
+            <li><a href="packages.html" class="nav-item">Packages</a></li>
+            <li><a href="about.html" class="nav-item">Our Story</a></li>
+            <li><a href="blogs.html" class="nav-item">Stories</a></li>
+            <li><a href="contact.html" class="nav-item">Contact</a></li>
+            <li><a href="tel:+918057608837" class="nav-cta-gold">Call Us</a></li>
+        </ul>
+
+        <div class="hamburger" id="navTrigger" onclick="togglePeaksMenu()">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </div>
+    </div>
+</nav>
+
+    <header class="blog-header-section">
+        <div class="container">
+            <h1>Himalayan <span class="highlight">Diaries</span></h1>
+            <p>From the streets of Srinagar Garhwal to the highest bugyals of Uttarakhand, read our authentic mountain tales.</p>
+        </div>
+    </header>
+
+    <main class="blog-main-content">
+        <div class="container">
+
+            <div class="featured-wrap">
+                <div class="featured-card-large">
+                    <div class="f-image">
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa" alt="Winter Trekking">
+                    </div>
+                    <div class="f-text">
+                        <span class="category-badge">Featured Story</span>
+                        <h2>The Magic of Winter: Why Auli is Best Experienced in January</h2>
+                        <p>Winter in the Himalayas is not just about the cold; it's about the silence, the pristine white blankets of snow, and the clarity of the peaks like never before.</p>
+                        <a href="#" class="btn-primary" style="width:fit-content">Read Full Guide</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header-flex" style="margin-bottom: 50px;">
+                <h2 class="section-title" style="text-align: left;">Latest Tales</h2>
+            </div>
+
+            <div id="blogDisplay" class="blog-grid"></div>
+                <div class="loading-state">
+                    <p>Fetching mountain stories...</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+     <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col brand-col">
+                    <div class="footer-logo">IntoThe<span>Peaks</span></div>
+                    <p>Into The Peaks is a premier trekking and adventure agency based in Srinagar Garhwal. We specialize in offbeat Himalayan trails and authentic Garhwali hospitality.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="packages.html">Trek Packages</a></li>
+                        <li><a href="about.html">About IntoThePeaks</a></li>
+                        <li><a href="blogs.html">Travel Stories</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Cancellation Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col contact-col">
+                    <h4>Reach Us</h4>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Friends Book Depot, Near Front Gate, HNBGU Birla Campus, Srinagar Garhwal, Uttarakhand 246174</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+91 8057608837</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>info@intothepeaks.in</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="bottom-flex">
+                    <p id="adminTrigger" class="copyright-text">© 2026 IntoThePeaks. All rights reserved.</p>
+                    <p class="design-credit">Made with ❤️ for the Himalayas</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="js/app.js"></script>
+    <script src="js/render.js"></script>
+
+</body>
+</html>

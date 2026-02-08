@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Himalayan Story | Into The Peaks</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNRaFaHvG83en8QhcjS1KFOPdlPWVdYCQ",
+    authDomain: "intothepeaks-c706d.firebaseapp.com",
+    databaseURL: "https://intothepeaks-c706d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "intothepeaks-c706d",
+    storageBucket: "intothepeaks-c706d.firebasestorage.app",
+    messagingSenderId: "499729300398",
+    appId: "1:499729300398:web:7f96b07a9df807b169663f",
+    measurementId: "G-BXDMHJCJ4R"
+  };
+
+  // Initialize Firebase (Only once)
+  if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+  }
+  const database = firebase.database();
+  console.log("IntoThePeaks Cloud: Connected!");
+</script>
+
+<script src="js/admin.js"></script> <script src="js/render.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           INTERNAL MASTER STYLES (EDITORIAL MAGAZINE THEME)
+           ========================================================================== */
+        :root {
+            --p-gold: #FFB800;             /* cite: 11 */
+            --p-navy: #1E1E2D;             /* cite: 11 */
+            --p-bg: #FCFCFD;               /* Clean Paper Background */
+            --p-text: #2D3436;
+            --p-muted: #636E72;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --container: 850px;            /* Optimal Reading Width */
+            --transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none !important; }
+
+        body {
+            background-color: var(--p-bg);
+            font-family: var(--font-sans);
+            color: var(--p-text);
+            line-height: 1.8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 1. NAVIGATION BAR (Fixed) */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+            padding: 0 5%;
+            justify-content: space-between;
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--p-navy); letter-spacing: -1.5px; }
+        .logo span { color: var(--p-gold); }
+
+        .back-link { font-weight: 800; color: var(--p-navy); display: flex; align-items: center; gap: 10px; transition: var(--transition); }
+        .back-link:hover { color: var(--p-gold); transform: translateX(-5px); }
+
+        /* 2. MAGNIFICENT HERO SECTION */
+        .blog-hero {
+            height: 80vh;
+            min-height: 600px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 100px;
+            color: white;
+            overflow: hidden;
+        }
+
+        #heroImg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* cite: 11 */
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(30, 30, 45, 0.95) 0%, rgba(30, 30, 45, 0.3) 60%, transparent 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        #title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 8vw, 4.8rem);
+            line-height: 1.1;
+            margin-bottom: 25px;
+            font-weight: 900;
+            text-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        #meta {
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+            color: var(--p-gold);
+        }
+
+        /* 3. THE ARTICLE BODY (READING EXPERIENCE) */
+        .article-body {
+            max-width: var(--container);
+            margin: -60px auto 100px;
+            padding: 80px 40px;
+            background: white;
+            position: relative;
+            z-index: 20;
+            border-radius: 40px;
+            box-shadow: 0 30px 100px rgba(0,0,0,0.05);
+        }
+
+        #content {
+            font-size: 1.3rem;
+            color: var(--p-text);
+            white-space: pre-wrap; /* cite: 16 */
+            word-wrap: break-word;
+        }
+
+        /* DROP CAP (Xerox Premium Editorial Look) */
+        #content::first-letter {
+            float: left;
+            font-size: 6rem;
+            font-family: var(--font-serif);
+            font-weight: 900;
+            margin-right: 15px;
+            line-height: 1;
+            color: var(--p-gold);
+            text-shadow: 4px 4px 0 rgba(255, 184, 0, 0.1);
+        }
+
+        /* 4. AUTHOR & SIGNATURE */
+        .author-box {
+            margin-top: 80px;
+            padding-top: 50px;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .author-circle {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: var(--p-gold); color: var(--p-navy);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+        }
+
+        .author-info h4 { font-weight: 900; font-size: 1.2rem; }
+        .author-info p { color: var(--p-muted); font-size: 0.9rem; }
+
+        /* 5. FOOTER (Branding Sync) */
+        footer {
+            background: var(--p-navy);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            border-radius: 60px 60px 0 0;
+        }
+
+        .footer-brand { font-size: 2rem; font-weight: 900; margin-bottom: 15px; }
+        .footer-brand span { color: var(--p-gold); }
+        .footer-loc { opacity: 0.6; font-size: 0.9rem; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            .blog-hero { height: 60vh; }
+            .article-body { margin-top: -30px; padding: 50px 25px; border-radius: 30px; }
+            #title { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">IntoThe<span>Peaks</span></a>
+        <a href="blogs.html" class="back-link"><i class="fas fa-arrow-left"></i> All Stories</a>
+    </nav>
+
+    <main>
+        <section class="blog-hero">
+            <img src="" id="heroImg" alt="Main Story Visual">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div id="meta">Adventure Story</div>
+                <h1 id="title">Story Loading...</h1>
+            </div>
+        </section>
+
+        <article class="article-body">
+            <div id="content">
+                Fetching the Himalayan archives for you...
+            </div>
+
+            <div class="author-box">
+                <div class="author-circle"><i class="fas fa-mountain"></i></div>
+                <div class="author-info">
+                    <h4>The Local Explorer</h4>
+                    <p>Verified Team Member at Srinagar Garhwal Head Office</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 60px; text-align: center;">
+                <p style="font-weight: 800; margin-bottom: 20px;">Spread the Adventure:</p>
+                <div style="display: flex; justify-content: center; gap: 15px;">
+                    <a href="#" class="back-link" style="background:#25D366; color:white; padding:10px 20px; border-radius:50px;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="#" class="back-link" style="background:#1877F2; color:white; padding:10px 20px; border-radius:50px;"><i class="fab fa-facebook-f"></i> Facebook</a>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-brand">IntoThe<span>Peaks</span></div>
+        <p class="footer-loc">Based in Srinagar Garhwal, Uttarakhand</p>
+        <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.3;">© 2026 Himalayan Expeditions</p>
+    </footer>
+
+    <script>
+        /* ==========================================
+   INTO THE PEAKS - CLOUD STORY ENGINE (v9.0)
+   ========================================== */
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const blogSlug = params.get('id'); // URL se 'id' (slug) uthayega
+
+    if (!blogSlug) {
+        window.location.href = 'blogs.html';
+        return;
+    }
+
+    // FIREBASE SE DATA LENA (Real-time)
+    database.ref('itp_data/blogs').on('value', (snapshot) => {
+        const blogsData = snapshot.val();
+        
+        if (!blogsData) {
+            console.error("No blogs found in cloud.");
+            return;
+        }
+
+        // Convert object to array and find the matching slug
+        const blogsArray = Object.values(blogsData);
+        const blog = blogsArray.find(b => {
+            const currentSlug = b.title.toLowerCase().trim().replace(/\s+/g, '-');
+            return currentSlug === blogSlug;
+        });
+
+        if (blog) {
+            // 1. Page Metadata
+            document.title = `${blog.title} | Into The Peaks`;
+            
+            // 2. Title & Hero Image
+            document.getElementById('title').innerText = blog.title;
+            const heroImg = document.getElementById('heroImg');
+            if (heroImg) heroImg.src = blog.img || blog.image;
+            
+            // 3. Full Content Injection (Content primary hai, Desc backup)
+            const contentEl = document.getElementById('content');
+            if (contentEl) {
+                contentEl.innerText = blog.content || blog.desc;
+            }
+            
+            // 4. Meta & Date
+            const dateStr = blog.createdAt ? new Date(blog.createdAt).toLocaleDateString() : 'Himalayan Expedition';
+            document.getElementById('meta').innerText = `IntoThePeaks Story | ${dateStr}`;
+            
+            console.log("Story Synchronized with Cloud Archives.");
+        } else {
+            console.warn("Story not found for slug:", blogSlug);
+            // Optional: window.location.href = 'blogs.html';
+        }
+    });
+});
+    </script>
+ <script src="js/app.js"></script>
+
+<script src="js/render.js"></script>   
+</body>
+</html>

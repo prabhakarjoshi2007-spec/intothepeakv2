@@ -1,0 +1,284 @@
+/* ==========================================================================
+   INTO THE PEAKS - SUPREME HOME ARCHITECTURE (ULTIMATE STABLE)
+   Location: Srinagar Garhwal, Uttarakhand
+   Sections: Hero, Why Us, Trending, Destinations
+   Policy: 100% Zero Underline | Anti-Stretch Grid | SaaS Premium
+   ========================================================================== */
+
+/* 1. HERO SECTION (THE FIRST IMPRESSION) */
+.hero {
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    background: linear-gradient(rgba(43, 45, 66, 0.5), rgba(43, 45, 66, 0.5)),
+                url('https://images.pexels.com/photos/35575085/pexels-photo-35575085.jpeg') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-top: var(--nav-h); /* Safe zone for navbar stability */
+    z-index: 5;
+}
+
+.hero-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 2rem;
+    animation: fadeInUp 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 10vw, 5.5rem);
+    line-height: 1.05;
+    margin-bottom: 25px;
+    font-weight: 900;
+    color: var(--white);
+    text-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.hero h1 span { color: var(--primary); }
+
+/* HERO BUTTONS */
+.hero-action-btns {
+    display: flex;
+    gap: 30px;
+    margin-top: 45px;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    background: var(--primary) !important;
+    color: var(--secondary) !important;
+    padding: 20px 45px;
+    border-radius: 16px;
+    font-weight: 800;
+    box-shadow: 0 15px 35px rgba(255, 184, 0, 0.3);
+    transition: var(--transition);
+}
+
+.btn-secondary {
+    color: var(--white) !important;
+    font-weight: 800;
+    border-bottom: 3px solid var(--primary);
+    padding: 10px 0;
+}
+
+/* 2. WHY INTOTHEPEAKS (FEATURES SECTION) */
+.features-section {
+    padding: 120px 0;
+    background: var(--white);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Rigid 3-column lock */
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.feature-card {
+    background: var(--bg-light);
+    padding: 50px 40px;
+    border-radius: 30px;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.feature-card:hover {
+    transform: translateY(-15px);
+    background: var(--white);
+    border-color: var(--primary);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+}
+
+.icon-box {
+    width: 70px;
+    height: 70px;
+    background: var(--primary);
+    color: var(--secondary);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+/* 3. TRENDING ADVENTURES (ANTI-STRETCH CARDS) */
+.package-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+    padding: 60px 0;
+}
+
+.card-img-wrap {
+    width: 100%;
+    height: 280px; 
+    overflow: hidden;
+    border-radius: 25px 25px 0 0;
+}
+
+.card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fixed image distortion */
+}
+
+/* 4. DESTINATIONS WE COVER (MASONRY GRID) */
+.destinations-section { padding: 100px 0; }
+
+
+
+.dest-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Locked 3-column for Badrinath/Auli/Chopta */
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.dest-item {
+    position: relative;
+    height: 550px; /* Fixed height for Xerox stability */
+    border-radius: 35px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.dest-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.dest-info {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(30, 30, 45, 0.9) 0%, transparent 60%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 40px;
+    color: var(--white);
+}
+
+.dest-item:hover img { transform: scale(1.1); }
+
+/* 5. GIANT SOCIAL MEDIA BUTTONS */
+.social-links {
+    display: flex;
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.social-links a {
+    width: 65px;
+    height: 65px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.8rem;
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    background: var(--primary);
+    color: var(--secondary);
+    transform: translateY(-10px) rotate(360deg);
+}
+
+/* 6. MOBILE ADAPTIVE ENGINE */
+@media (max-width: 1024px) {
+    .features-grid, .dest-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+    .hero { padding-top: 150px; text-align: center; }
+    .hero-action-btns { justify-content: center; }
+    .features-grid, .dest-grid { grid-template-columns: 1fr; }
+    .dest-item { height: 400px; }
+    .social-links { justify-content: center; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* home.css ke end mein dalo */
+
+.logo img {
+    height: 70px; /* Navbar ke hisab se perfect height */
+    width: auto;
+    display: block;
+    object-fit: contain; /* Image ko box ke andar set rakhta hai */
+    transition: var(--transition);
+}
+
+/* Jab scroll karein toh logo chota ho jaye */
+nav#navbar.scrolled .logo img {
+    height: 55px;
+}
+
+/* Mobile responsive logo */
+@media (max-width: 768px) {
+    .logo img {
+        height: 50px;
+    }
+}
+/* LOGO CIRCLE ARCHITECTURE */
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none !important;
+}
+
+.logo-circle {
+    width: 65px; /* Circle ka size */
+    height: 65px;
+    background: #fff;
+    border-radius: 50%; /* Isse circle banega */
+    overflow: hidden;
+    border: 3px solid var(--primary); /* Gold border */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: var(--transition);
+}
+
+.logo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Image ko stretch hone se rokta hai */
+}
+
+/* NAVBAR ALIGNMENT FIX */
+nav#navbar .nav-container {
+    display: flex;
+    align-items: center; /* Vertical centering */
+    justify-content: space-between;
+}
+
+/* SCROLL EFFECT: Logo chota ho jaye */
+nav#navbar.scrolled .logo-circle {
+    width: 50px;
+    height: 50px;
+    border-width: 2px;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+    .logo-circle {
+        width: 50px;
+        height: 50px;
+    }
+    .logo-text { font-size: 1.2rem; }
+}

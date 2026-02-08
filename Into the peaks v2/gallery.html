@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Himalayan Archives | Into The Peaks</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBNRaFaHvG83en8QhcjS1KFOPdlPWVdYCQ",
+        authDomain: "intothepeaks-c706d.firebaseapp.com",
+        databaseURL: "https://intothepeaks-c706d-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "intothepeaks-c706d",
+        storageBucket: "intothepeaks-c706d.firebasestorage.app",
+        messagingSenderId: "499729300398",
+        appId: "1:499729300398:web:7f96b07a9df807b169663f",
+        measurementId: "G-BXDMHJCJ4R"
+      };
+      if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+      const database = firebase.database();
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --p-gold: #FFB800;
+            --p-navy: #1E1E2D;
+            --p-bg: #f4f7f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--p-bg); color: var(--p-navy); overflow-x: hidden; }
+
+        /* --- NAV STYLE --- */
+        #navbar { position: fixed; top: 0; width: 100%; z-index: 2000; padding: 25px 8%; display: flex; justify-content: space-between; align-items: center; transition: 0.4s; }
+        #navbar.scrolled { background: var(--p-navy); padding: 15px 8%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .logo-text { font-size: 1.8rem; font-weight: 900; color: #fff; text-decoration: none; }
+        .logo-text span { color: var(--p-gold); }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { color: #fff; text-decoration: none; font-weight: 700; font-size: 0.95rem; }
+
+        /* --- HERO SECTION --- */
+        .blog-header-section {
+            padding: 180px 0 100px;
+            background: linear-gradient(rgba(30, 30, 45, 0.8), rgba(30, 30, 45, 0.7)), 
+                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1500&q=80');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            text-align: center; color: #fff;
+        }
+        .blog-header-section h1 { font-family: 'Playfair Display', serif; font-size: 4.5rem; margin-bottom: 15px; }
+
+        /* --- CENTERED TITLE --- */
+        .centered-title { text-align: center; margin: 100px 0 50px; }
+        .centered-title h2 { font-family: 'Playfair Display', serif; font-size: 3rem; position: relative; display: inline-block; }
+        .centered-title h2::after { content: ''; position: absolute; bottom: -10px; left: 25%; width: 50%; height: 5px; background: var(--p-gold); border-radius: 10px; }
+
+        /* --- FEATURED CAROUSEL --- */
+        .featured-wrap { max-width: 1200px; margin: 0 auto 150px; padding: 0 20px; }
+        .featured-card-large { 
+            display: grid; 
+            grid-template-columns: 1.2fr 1fr; 
+            background: #fff; 
+            border-radius: 45px; 
+            overflow: hidden; 
+            box-shadow: 0 40px 80px rgba(0,0,0,0.12); 
+            min-height: 550px; 
+        }
+        .f-image { background: #000; overflow: hidden; position: relative; }
+        .f-image img, .f-image video { width: 100%; height: 100%; object-fit: cover; }
+        .f-text { padding: 70px; display: flex; flex-direction: column; justify-content: center; }
+
+        /* --- MODAL ENGINE --- */
+        #mediaModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000; align-items: center; justify-content: center; overflow-y: auto; padding: 50px 0; }
+
+        /* --- FOOTER --- */
+        .main-footer { background: var(--p-navy); padding: 100px 0 40px; color: #fff; margin-top: 50px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; max-width: 1200px; margin: auto; padding: 0 20px; }
+        .footer-logo { font-size: 2rem; font-weight: 800; margin-bottom: 20px; }
+        .footer-logo span { color: var(--p-gold); }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <a href="index.html" class="logo-text">IntoThe<span>Peaks</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="packages.html">Packages</a></li>
+            <li><a href="gallery.html" style="color:var(--p-gold)">Archives</a></li>
+            <li><a href="blogs.html">Stories</a></li>
+        </ul>
+    </nav>
+
+    <header class="blog-header-section">
+        <div class="container">
+            <h1>Himalayan <span style="color:var(--p-gold)">Archives</span></h1>
+            <p>Visual tales from Srinagar Garhwal to the Great Himalayan Heights.</p>
+        </div>
+    </header>
+
+    <div class="centered-title">
+        <h2 id="counterText">Latest Moments ...</h2>
+    </div>
+
+    
+    <div class="featured-wrap" id="featuredContainer">
+        </div>
+
+    <div id="mediaModal">
+        <span onclick="closeModal()" style="position:fixed; top:30px; right:40px; color:white; font-size:50px; cursor:pointer; z-index:10001;">&times;</span>
+        <div style="width:90%; max-width:900px; text-align:center;">
+            <div id="modalContent"></div>
+            <h2 id="mTitle" style="color:var(--p-gold); font-family:'Playfair Display'; margin-top:20px;"></h2>
+            <p id="mDesc" style="color:white; opacity:0.8; margin-top:10px;"></p>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">IntoThe<span>Peaks</span></div>
+                <p style="opacity:0.7; line-height:1.7;">Srinagar Garhwal's premier trekking agency. Discover the Himalayas with us.</p>
+            </div>
+            <div class="footer-col">
+                <h4 style="margin-bottom:20px;">Explore</h4>
+                <p><a href="index.html" style="color:#aaa; text-decoration:none;">Home</a></p>
+                <p><a href="packages.html" style="color:#aaa; text-decoration:none;">Packages</a></p>
+            </div>
+            <div class="footer-col">
+                <h4 style="margin-bottom:20px;">Contact</h4>
+                <p style="color:#aaa;">Srinagar Garhwal, UK</p>
+                <p style="color:#aaa;">+91 8057608837</p>
+            </div>
+            <div class="footer-col">
+                <h4 style="margin-bottom:20px;">Legal</h4>
+                <p style="color:#aaa;">Privacy Policy</p>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:60px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1);">
+            <p id="adminTrigger" style="color:#555; cursor:help;">© 2026 IntoThePeaks. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- REALTIME DATA SYNC ---
+        database.ref('itp_data/gallery').on('value', (snap) => {
+            const data = snap.val();
+            if(!data) return;
+            const items = Object.values(data).reverse();
+            
+            // Moment Counter Update
+            document.getElementById('counterText').innerText = `${items.length} Latest Moments ...`;
+
+            // Render Only Featured Moments (First Item)
+            // You can also loop through first 3 if you want a list
+            const f = items[0];
+            document.getElementById('featuredContainer').innerHTML = `
+                <div class="featured-card-large">
+                    <div class="f-image">
+                        ${f.media[0].type === 'video' ? `<video src="${f.media[0].url}" autoplay muted loop></video>` : `<img src="${f.media[0].url}">`}
+                    </div>
+                    <div class="f-text">
+                        <span style="background:var(--p-gold); color:var(--p-navy); padding:6px 18px; border-radius:50px; font-weight:800; font-size:0.75rem; margin-bottom:25px; width:fit-content;">NEWEST STORY</span>
+                        <h2 style="font-family:'Playfair Display'; font-size:2.5rem; margin-bottom:20px; line-height:1.2;">${f.title}</h2>
+                        <p style="color:#666; font-size:1.1rem; line-height:1.6;">${f.description}</p>
+                        <button onclick='openModal(${JSON.stringify(f)})' style="margin-top:35px; padding:18px 40px; background:var(--p-navy); color:white; border:none; border-radius:15px; cursor:pointer; font-weight:800; font-size:1rem; transition:0.3s;">VIEW ALL PHOTOS ARCHIVE</button>
+                    </div>
+                </div>`;
+        });
+
+        // --- UI LOGIC ---
+        window.openModal = (album) => {
+            document.getElementById('mTitle').innerText = album.title;
+            document.getElementById('mDesc').innerText = album.description;
+            document.getElementById('modalContent').innerHTML = album.media.map(m => 
+                m.type === 'video' ? `<video src="${m.url}" controls style="width:100%; border-radius:20px; margin-bottom:20px;"></video>` : `<img src="${m.url}" style="width:100%; border-radius:20px; margin-bottom:20px;">`
+            ).join('');
+            document.getElementById('mediaModal').style.display = 'flex';
+        };
+
+        window.closeModal = () => document.getElementById('mediaModal').style.display = 'none';
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            window.scrollY > 60 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+        });
+
+        document.getElementById('adminTrigger').addEventListener('dblclick', () => {
+            if(prompt("Admin ID:") === "Gammi" && prompt("Key:") === "BOSS") window.location.href = 'admin.html';
+        });
+    </script>
+</body>
+</html>

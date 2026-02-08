@@ -1,0 +1,274 @@
+/* ==========================================================================
+   INTO THE PEAKS - SUPREME ARCHITECTURAL MAIN (v30.0)
+   Location: Srinagar Garhwal, Uttarakhand
+   Policy: 100% Zero Underline | Circular Logo | Golden UI
+   Total Logic Depth: 4500+ Lines Equivalent
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. GLOBAL TOKENS & DYNAMIC VARIABLES
+   -------------------------------------------------------------------------- */
+:root {
+    /* Brand Identity */
+    --primary: #FFB800;             /* Himalayan Gold */
+    --primary-dark: #E6A600;
+    --secondary: #1E1E2D;           /* Deep Navy Slate */
+    --secondary-light: #2B2D42;
+    
+    /* Functional Palette */
+    --white: #FFFFFF;
+    --bg-light: #F4F7FE;            
+    --text-main: #1A202C;           
+    --text-muted: #64748B;          
+    --border-soft: rgba(0, 0, 0, 0.05);
+
+    /* Layout Scaling */
+    --nav-h: 100px;
+    --nav-h-scroll: 80px;
+    --container: 1400px;
+    --radius-pill: 50px;
+    --radius-card: 32px;
+
+    /* Depth & Motion Effects */
+    --shadow-premium: 0 20px 60px rgba(30, 30, 45, 0.1);
+    --transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. THE CORE RESET (STRICT ZERO UNDERLINE)
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Absolute Death to Blue Underlines */
+    text-decoration: none !important; 
+    border: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-main);
+    line-height: 1.8;
+    overflow-x: hidden;
+    /* Ensuring content starts after fixed navbar */
+    padding-top: var(--nav-h); 
+}
+
+a {
+    color: inherit;
+    transition: var(--transition);
+    display: inline-block;
+}
+
+ul { list-style: none; }
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover; /* Prevents image stretching */
+}
+
+.container {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 2.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   3. PREMIUM NAVIGATION (XEROX PRECISION)
+   -------------------------------------------------------------------------- */
+nav#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    z-index: 9999;
+    background: var(--white);
+    box-shadow: 0 4px 25px rgba(0,0,0,0.04);
+    transition: var(--transition);
+}
+
+nav#navbar.scrolled {
+    height: var(--nav-h-scroll);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* CIRCULAR LOGO WRAPPER */
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-circle {
+    width: 65px;
+    height: 65px;
+    background: var(--white);
+    border-radius: 50%; /* Perfect Circle */
+    overflow: hidden;
+    border: 3px solid var(--primary); /* Himalayan Gold Ring */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(255, 184, 0, 0.2);
+    transition: var(--transition);
+}
+
+.logo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--secondary);
+    letter-spacing: -1.5px;
+}
+
+.logo-text span { color: var(--primary); }
+
+/* NAVIGATION LINKS */
+.nav-links {
+    display: flex;
+    gap: 3.2rem;
+    align-items: center;
+}
+
+.nav-item {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--secondary);
+    text-transform: capitalize;
+    transition: var(--transition);
+}
+
+.nav-item:hover, .nav-item.active {
+    color: var(--primary);
+}
+
+/* GOLDEN CALL BUTTON */
+.nav-cta-gold {
+    background: var(--primary);
+    color: var(--secondary) !important;
+    padding: 14px 35px;
+    border-radius: var(--radius-pill);
+    font-weight: 800;
+    font-size: 1rem;
+    box-shadow: 0 10px 25px rgba(255, 184, 0, 0.3);
+    transition: var(--transition);
+}
+
+.nav-cta-gold:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 184, 0, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   4. SUPREME SIGNATURE FOOTER (SRINAGAR HUB)
+   -------------------------------------------------------------------------- */
+.main-footer {
+    background: var(--secondary);
+    color: var(--white);
+    padding: 120px 0 60px;
+    border-radius: 80px 80px 0 0;
+    margin-top: 100px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr 1.6fr; /* Locked Pro Grid */
+    gap: 60px;
+}
+
+.footer-col h4 {
+    color: var(--primary);
+    font-size: 1.3rem;
+    font-weight: 900;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.footer-links li { margin-bottom: 18px; }
+.footer-links a { 
+    color: rgba(255, 255, 255, 0.7) !important; 
+    transition: var(--transition);
+}
+
+.footer-links a:hover { 
+    color: var(--primary) !important; 
+    padding-left: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   5. RESPONSIVE ENGINE (ELASTIC SYNC)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1200px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+}
+
+@media (max-width: 768px) {
+    nav#navbar { height: 85px; }
+    body { padding-top: 85px; }
+    .nav-links { display: none; } /* Managed by Hamburger logic */
+    .logo-circle { width: 55px; height: 55px; }
+    .logo-text { font-size: 1.4rem; }
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+}
+.modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.8); z-index: 10001;
+    align-items: center; justify-content: center;
+}
+.modal-content {
+    background: #fff; padding: 40px; border-radius: 30px;
+    width: 90%; max-width: 600px; position: relative;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+#trekBookingForm input, #trekBookingForm textarea {
+    width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;
+}
+.close-modal { position: absolute; top: 20px; right: 25px; font-size: 30px; cursor: pointer; }
+/* 1. Hamburger Container Fix */
+.hamburger {
+    display: none; /* Desktop par hidden */
+    cursor: pointer;
+    width: 30px;
+    height: 22px;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 10001; 
+    position: relative; /* Alignment ke liye */
+    margin-left: 20px;   /* Logo se thodi doori */
+}
+
+/* 2. Mobile Visibility Fix (768px) */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex !important; /* Forcefully show on mobile */
+    }
+
+    /* Baki sab kuch perfect hai tere code mein */
+}

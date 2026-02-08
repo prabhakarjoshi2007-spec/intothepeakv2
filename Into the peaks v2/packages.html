@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>All Trekking Packages | into the peaks - Srinagar Garhwal</title>
+    
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNRaFaHvG83en8QhcjS1KFOPdlPWVdYCQ",
+    authDomain: "intothepeaks-c706d.firebaseapp.com",
+    databaseURL: "https://intothepeaks-c706d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "intothepeaks-c706d",
+    storageBucket: "intothepeaks-c706d.firebasestorage.app",
+    messagingSenderId: "499729300398",
+    appId: "1:499729300398:web:7f96b07a9df807b169663f",
+    measurementId: "G-BXDMHJCJ4R"
+  };
+
+  // Initialize Firebase (Only once)
+  if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+  }
+  const database = firebase.database();
+  console.log("IntoThePeaks Cloud: Connected!");
+</script>
+
+<script src="js/admin.js"></script> <script src="js/render.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================
+           PACKAGES PAGE SPECIFIC - LUXURY GRID SYSTEM
+           ========================================================== */
+        
+        .packages-page-header {
+            padding: 160px 0 60px;
+            background: linear-gradient(rgba(43, 45, 66, 0.85), rgba(43, 45, 66, 0.7)), 
+                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            text-align: center;
+            color: #fff;
+        }
+
+        /* The Search & Filter Bar */
+        .search-filter-container {
+            margin-top: -40px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .filter-wrapper {
+            background: #fff;
+            padding: 25px 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .search-input-group {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-input-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+
+        .search-input-group input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            border-radius: 50px;
+            border: 1px solid #eee;
+            background: #f8f9fa;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-input-group input:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(255, 184, 0, 0.1);
+        }
+
+        .sort-group select {
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 1px solid #eee;
+            background: #fff;
+            font-weight: 700;
+            color: var(--secondary);
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* Professional Package Grid */
+        .packages-grid-main {
+            padding: 100px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 40px;
+        }
+
+        .package-card {
+            background: #fff;
+            border-radius: 35px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .package-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 60px rgba(43, 45, 66, 0.12);
+        }
+
+        .pkg-img-holder {
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pkg-img-holder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.6s ease;
+        }
+
+        .package-card:hover .pkg-img-holder img {
+            transform: scale(1.1);
+        }
+
+        .pkg-status-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            z-index: 5;
+        }
+
+        .pkg-details {
+            padding: 35px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pkg-details h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .pkg-price-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 25px;
+            border-top: 1px solid #f1f1f1;
+        }
+
+        .pkg-price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--secondary);
+        }
+
+        .pkg-price span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #777;
+        }
+
+        @media (max-width: 768px) {
+            .filter-wrapper { flex-direction: column; padding: 20px; }
+            .search-input-group { min-width: 100%; }
+            .packages-grid-main { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <div class="nav-container container">
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-circle">
+                <img src="assets/LOGO.jpeg" alt="IntoThePeaks Logo">
+            </div>
+            <div class="logo-text-group">
+                <span class="brand-name">IntoThe<span>Peaks</span></span>
+            </div>
+        </a>
+
+        <ul class="nav-links" id="mainMenu">
+            <li><a href="index.html" class="nav-item">Home</a></li>
+            <li><a href="packages.html" class="nav-item">Packages</a></li>
+            <li><a href="about.html" class="nav-item">Our Story</a></li>
+            <li><a href="blogs.html" class="nav-item">Stories</a></li>
+            <li><a href="contact.html" class="nav-item">Contact</a></li>
+            <li><a href="tel:+918057608837" class="nav-cta-gold">Call Us</a></li>
+        </ul>
+
+        <div class="hamburger" id="navTrigger" onclick="togglePeaksMenu()">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </div>
+    </div>
+</nav>
+
+    <header class="packages-page-header">
+        <div class="container">
+            <h1 style="margin-bottom: 10px;">Mountain <span class="highlight">Catalog</span></h1>
+            <p style="font-size: 1.2rem; opacity: 0.9;">Explore the hidden trails of Garhwal with certified local experts.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section class="search-filter-container">
+            <div class="filter-wrapper">
+                <div class="search-input-group">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="trekSearch" placeholder="Search for a trek (e.g. Auli, Chopta)..." onkeyup="filterTreks()">
+                </div>
+                <div class="sort-group">
+                    <select id="sortPrice" onchange="sortPackages()">
+                        <option value="default">Sort By Price</option>
+                        <option value="low">Price: Low to High</option>
+                        <option value="high">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <div id="journeyDisplay" class="package-grid">
+            <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                <i class="fas fa-mountain fa-spin" style="font-size: 3rem; color: var(--primary);"></i>
+                <p style="margin-top: 20px; font-weight: 700; color: var(--secondary);">Syncing with Himalayan Database...</p>
+            </div>
+        </div>
+
+    </main>
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeBooking()">&times;</span>
+            <div class="modal-header">
+                <h2 id="trekTitle">Confirm Your Adventure</h2>
+                <p>Authorized by Into the Peaks</p>
+            </div>
+            
+            <form id="trekBookingForm" class="supreme-form">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Explorer Name</label>
+                        <input type="text" id="userName" placeholder="Your full name" required>
+                    </div>
+                    <div class="input-group">
+                        <label>WhatsApp Number</label>
+                        <input type="tel" id="userPhone" placeholder="+91" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Group Size (People)</label>
+                        <input type="number" id="groupSize" min="1" value="1" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Preferred Date</label>
+                        <input type="date" id="trekDate" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Special Requests (e.g. Vegetarian Meals)</label>
+                    <textarea id="userNotes" rows="3" placeholder="Food allergies, health info, etc."></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary-gold">Submit Booking Request</button>
+            </form>
+        </div>
+    </div>
+
+      <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col brand-col">
+                    <div class="footer-logo">IntoThe<span>Peaks</span></div>
+                    <p>into the peaks is a premier trekking and adventure agency based in Srinagar Garhwal. We specialize in offbeat Himalayan trails and authentic Garhwali hospitality.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="packages.html">Trek Packages</a></li>
+                        <li><a href="about.html">About IntoThePeaks</a></li>
+                        <li><a href="blogs.html">Travel Stories</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Cancellation Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col contact-col">
+                    <h4>Reach Us</h4>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Friends Book Depot, Near Front Gate, HNBGU Birla Campus, Srinagar Garhwal, Uttarakhand 246174</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+91 8057608837</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>info@intothepeaks.in</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="bottom-flex">
+                    <p id="adminTrigger" class="copyright-text">© 2026 IntoThePeaks. All rights reserved.</p>
+                    <p class="design-credit">Made with ❤️ for the Himalayas</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/render.js"></script>
+    
+    <script>
+        // Simple search logic for quick filtering
+        function filterTreks() {
+            const input = document.getElementById('trekSearch').value.toLowerCase();
+            const cards = document.getElementsByClassName('package-card');
+            
+            for (let card of cards) {
+                const title = card.querySelector('h3').innerText.toLowerCase();
+                card.style.display = title.includes(input) ? "flex" : "none";
+            }
+        }
+    </script>
+
+</body>
+</html>

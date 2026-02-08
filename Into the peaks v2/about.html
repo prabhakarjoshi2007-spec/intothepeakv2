@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Our Story | Into The Peaks - Local Himalayan Experts</title>
+    <meta name="description" content="Know about Into The Peaks, a local trekking agency based in Srinagar Garhwal. Our journey, our team, and our commitment to sustainable Himalayan tourism.">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <style>
+        /* ABOUT PAGE SPECIFIC STYLING */
+        .about-hero {
+            height: 60vh;
+            background: linear-gradient(rgba(43, 45, 66, 0.8), rgba(43, 45, 66, 0.7)), 
+                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        .story-section { padding: 100px 0; background: #fff; }
+        
+        .story-flex {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 100px;
+        }
+
+        .story-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .story-image img {
+            width: 100%;
+            border-radius: 40px;
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .story-image::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary);
+            border-radius: 40px;
+            z-index: -1;
+        }
+
+        .story-text { flex: 1.2; }
+        .story-text h2 { font-size: 3rem; color: var(--secondary); margin-bottom: 25px; font-weight: 800; }
+        .story-text p { font-size: 1.15rem; line-height: 1.9; color: var(--text-light); margin-bottom: 20px; }
+
+        /* VALUES GRID */
+        .values-section { padding: 100px 0; background: var(--bg-light); }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .value-card {
+            background: #fff;
+            padding: 50px 40px;
+            border-radius: 30px;
+            text-align: center;
+            transition: var(--transition);
+            border-bottom: 5px solid transparent;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-bottom-color: var(--primary);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .value-card i { font-size: 3rem; color: var(--primary); margin-bottom: 25px; }
+
+        /* TEAM SECTION */
+        .team-section { padding: 100px 0; text-align: center; }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .team-member {
+            background: #fff;
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 5px solid var(--bg-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .story-flex { flex-direction: column; text-align: center; }
+            .story-text h2 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <div class="nav-container container">
+        <a href="index.html" class="logo-wrapper">
+            <div class="logo-circle">
+                <img src="assets/LOGO.jpeg" alt="IntoThePeaks Logo">
+            </div>
+            <div class="logo-text-group">
+                <span class="brand-name">IntoThe<span>Peaks</span></span>
+            </div>
+        </a>
+
+        <ul class="nav-links" id="mainMenu">
+            <li><a href="index.html" class="nav-item">Home</a></li>
+            <li><a href="packages.html" class="nav-item">Packages</a></li>
+            <li><a href="about.html" class="nav-item">Our Story</a></li>
+            <li><a href="blogs.html" class="nav-item">Stories</a></li>
+            <li><a href="contact.html" class="nav-item">Contact</a></li>
+            <li><a href="tel:+918057608837" class="nav-cta-gold">Call Us</a></li>
+        </ul>
+
+        <div class="hamburger" id="navTrigger" onclick="togglePeaksMenu()">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </div>
+    </div>
+</nav>
+
+    <header class="about-hero">
+        <div class="container">
+            <h1 style="font-size: 4rem; font-weight: 900;">Born In The <span class="highlight">Himalayas</span></h1>
+            <p style="font-size: 1.3rem; opacity: 0.9;">Authenticity, Safety, and Local Passion.</p>
+        </div>
+    </header>
+
+    <section class="story-section">
+        <div class="container">
+            <div class="story-flex">
+                <div class="story-image">
+                    <img src="https://images.unsplash.com/photo-1589136777351-fdc9c9ca0d3a" alt="Srinagar Garhwal Local Experts">
+                </div>
+                <div class="story-text">
+                    <h2>The Journey from Srinagar Garhwal</h2>
+                    <p>Into The Peaks was founded with a single mission: to provide an authentic window into the unexplored beauty of the Garhwal Himalayas. Based right here in <strong>Srinagar Garhwal</strong>, near the HNBGU Birla Campus, we started as a small group of local mountaineers who wanted to share their home with the world.</p>
+                    <p>We believe that a trek is more than just a walk in the woods; it's a spiritual and physical reconnection with nature. Our roots at <strong>Friends Book Depot</strong> have always kept us connected to the youth and the spirit of adventure that defines this region.</p>
+                    <div class="stats-row" style="display: flex; gap: 30px; margin-top: 30px;">
+                        <div><h3 style="color: var(--primary); font-size: 2.5rem;">50+</h3><p>Trails Explored</p></div>
+                        <div><h3 style="color: var(--primary); font-size: 2.5rem;">1000+</h3><p>Happy Trekkers</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="values-section">
+        <div class="container">
+            <h2 class="section-title text-center">What We Stand For</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Local Empowerment</h3>
+                    <p>We exclusively hire local guides and support staff from Garhwal, ensuring that tourism benefits the community directly.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Authentic Food</h3>
+                    <p>From Mandua ki Roti to Jhangora ki Kheer, we serve authentic local cuisine on our treks to give you a true taste of Uttarakhand.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-mountain"></i>
+                    <h3>Certified Safety</h3>
+                    <p>Our leaders are trained at NIM (Nehru Institute of Mountaineering) and carry advanced first-aid kits on every journey.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section container">
+        <h2 class="section-title">The Faces Behind the Peaks</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <img src="https://i.pravatar.cc/200?img=12" alt="Founding Guide">
+                <h4>Prabhakar Joshi</h4>
+                <p style="color: var(--primary); font-weight: 700;">Founder & Lead Guide</p>
+            </div>
+            <div class="team-member">
+                <img src="https://i.pravatar.cc/200?img=33" alt="Operation Head">
+                <h4>Local Expert</h4>
+                <p style="color: var(--primary); font-weight: 700;">Operations Head</p>
+            </div>
+            <div class="team-member">
+                <img src="https://i.pravatar.cc/200?img=5" alt="Trek Coordinator">
+                <h4>Team Member</h4>
+                <p style="color: var(--primary); font-weight: 700;">Trek Coordinator</p>
+            </div>
+        </div>
+    </section>
+
+     <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col brand-col">
+                    <div class="footer-logo">IntoThe<span>Peaks</span></div>
+                    <p>Into The Peaks is a premier trekking and adventure agency based in Srinagar Garhwal. We specialize in offbeat Himalayan trails and authentic Garhwali hospitality.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="packages.html">Trek Packages</a></li>
+                        <li><a href="about.html">About IntoThePeaks</a></li>
+                        <li><a href="blogs.html">Travel Stories</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Cancellation Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col contact-col">
+                    <h4>Reach Us</h4>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Friends Book Depot, Near Front Gate, HNBGU Birla Campus, Srinagar Garhwal, Uttarakhand 246174</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+91 8057608837</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>info@intothepeaks.in</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="bottom-flex">
+                    <p id="adminTrigger" class="copyright-text">© 2026 IntoThePeaks. All rights reserved.</p>
+                    <p class="design-credit">Made with ❤️ for the Himalayas</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/app.js"></script>
+
+<script src="js/render.js"></script>
+</body>
+</html>

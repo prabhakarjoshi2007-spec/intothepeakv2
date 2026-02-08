@@ -1,0 +1,223 @@
+/* ==========================================================================
+   INTO THE PEAKS - ITINERARY & DETAIL ARCHITECTURE
+   Logic: Vertical Timelines, Sticky Widgets, & Content Hierarchy
+   Branding: Himalayan Gold (#FFB800) & Dark Slate (#2B2D42)
+   ========================================================================== */
+
+:root {
+    --it-gold: #FFB800;
+    --it-navy: #2B2D42;
+    --it-border: #edf2f7;
+    --it-dot-size: 16px;
+    --it-line-style: 2px dashed var(--it-gold);
+    --it-shadow: 0 20px 40px rgba(43, 45, 66, 0.08);
+}
+
+/*  */
+
+/* --------------------------------------------------------------------------
+   1. MASTER TIMELINE LOGIC (THE XEROX FACTOR)
+   -------------------------------------------------------------------------- */
+.timeline-v2 {
+    position: relative;
+    padding: 40px 0;
+    margin-top: 30px;
+}
+
+/* The Vertical Connection Line */
+.timeline-v2::before {
+    content: '';
+    position: absolute;
+    left: 7px; /* Centered with dot */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    border-left: var(--it-line-style);
+    z-index: 1;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 60px;
+    margin-bottom: 60px;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+/* The Animated Day Indicator */
+.day-dot {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: var(--it-dot-size);
+    height: var(--it-dot-size);
+    background: var(--it-gold);
+    border: 3px solid #fff;
+    border-radius: 50%;
+    z-index: 10;
+    box-shadow: 0 0 0 5px rgba(255, 184, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.timeline-item:hover .day-dot {
+    transform: scale(1.5);
+    background: var(--it-navy);
+    box-shadow: 0 0 25px rgba(255, 184, 0, 0.7);
+}
+
+/* Day Label/Badge Style */
+.day-label-tag {
+    display: inline-block;
+    background: var(--it-navy);
+    color: var(--it-gold);
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-weight: 900;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+/* The Detailed Content Box */
+.day-info {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: var(--shadow-premium);
+    border: 1px solid var(--it-border);
+    transition: all 0.4s ease;
+}
+
+.day-info:hover {
+    border-color: var(--it-gold);
+    transform: translateX(12px);
+    box-shadow: var(--it-shadow);
+}
+
+.day-info h4 {
+    font-size: 1.6rem;
+    color: var(--it-navy);
+    margin-bottom: 18px;
+    font-weight: 800;
+}
+
+.day-info p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.9;
+}
+
+/* --------------------------------------------------------------------------
+   2. STICKY BOOKING SIDEBAR (CONVERSION FOCUSED)
+   -------------------------------------------------------------------------- */
+.booking-card-fixed {
+    background: var(--it-navy);
+    color: #fff;
+    padding: 50px 40px;
+    border-radius: 40px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.05);
+    position: sticky;
+    top: 120px;
+}
+
+.price-box {
+    margin-bottom: 40px;
+}
+
+.price-box .old-price {
+    display: block;
+    text-decoration: line-through;
+    opacity: 0.4;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.price-box .current-price {
+    font-size: 3.8rem;
+    font-weight: 900;
+    color: var(--it-gold);
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.inclusions-list {
+    text-align: left;
+    margin-bottom: 45px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 35px;
+}
+
+.inclusion-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
+.inclusion-item i {
+    color: var(--it-gold);
+    font-size: 1.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   3. DYNAMIC HERO LAYOUT
+   -------------------------------------------------------------------------- */
+.package-hero-detail {
+    height: 65vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    border-radius: 0 0 60px 60px;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 100px;
+}
+
+.package-hero-detail::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(43, 45, 66, 0.95) 10%, transparent 100%);
+    z-index: 1;
+}
+
+.hero-info-wrapper {
+    position: relative;
+    z-index: 10;
+    color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   4. RESPONSIVE OPTIMIZATIONS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+    .package-hero-detail { height: 55vh; border-radius: 0; }
+    .day-info { padding: 30px; }
+    .timeline-item { padding-left: 45px; }
+    .booking-card-fixed { position: static; margin-top: 50px; }
+}
+
+@media (max-width: 600px) {
+    .timeline-v2::before { left: 5px; }
+    .day-dot { left: -2px; }
+    .price-box .current-price { font-size: 3rem; }
+    .day-info h4 { font-size: 1.3rem; }
+}
+
+/* --------------------------------------------------------------------------
+   5. SPECIAL ANIMATIONS
+   -------------------------------------------------------------------------- */
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(255, 184, 0, 0.5); }
+    70% { box-shadow: 0 0 0 20px rgba(255, 184, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 184, 0, 0); }
+}
+
+.day-dot {
+    animation: pulseGlow 2.5s infinite;
+}

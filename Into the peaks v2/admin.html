@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supreme Admin | Into The Peaks</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNRaFaHvG83en8QhcjS1KFOPdlPWVdYCQ",
+    authDomain: "intothepeaks-c706d.firebaseapp.com",
+    databaseURL: "https://intothepeaks-c706d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "intothepeaks-c706d",
+    storageBucket: "intothepeaks-c706d.firebasestorage.app",
+    messagingSenderId: "499729300398",
+    appId: "1:499729300398:web:7f96b07a9df807b169663f",
+    measurementId: "G-BXDMHJCJ4R"
+  };
+
+  // Initialize Firebase (Only once)
+  if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+  }
+  const database = firebase.database();
+  console.log("IntoThePeaks Cloud: Connected!");
+</script>
+    <style>
+        /* ==========================================================================
+           INTERNAL MASTER STYLES (XEROX PREMIUM DASHBOARD)
+           ========================================================================== */
+        :root {
+            --adm-gold: #FFB800;
+            --adm-navy: #1E1E2D;
+            --adm-bg: #F4F7FE;
+            --adm-card: #FFFFFF;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none !important; }
+
+        body {
+            background-color: var(--adm-bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR DECORATION */
+        .admin-sidebar {
+            width: 280px;
+            background: var(--adm-navy);
+            height: 100vh;
+            position: fixed;
+            padding: 40px 20px;
+            color: white;
+            z-index: 1000;
+            box-shadow: 10px 0 40px rgba(0,0,0,0.1);
+        }
+
+        .admin-brand { font-size: 1.8rem; font-weight: 900; margin-bottom: 50px; text-align: center; }
+        .admin-brand span { color: var(--adm-gold); }
+        /* ==========================================
+   SUPREME GALLERY SECTION STYLING (v30.5)
+   ========================================== */
+
+/* 1. Main Form Container */
+#galleryTab .admin-card-full {
+    background: #ffffff;
+    border-radius: 35px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+/* 2. Form Layout Fix */
+#galleryTab .admin-field {
+    border: 2px solid #f1f5f9;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+#galleryTab .admin-field:focus {
+    border-color: var(--adm-gold);
+    background: #fff;
+    box-shadow: 0 0 15px rgba(255, 184, 0, 0.1);
+}
+
+/* 3. Dropzone (Upload Area) Styling */
+#albumFiles {
+    height: 150px;
+    border: 2px dashed #cbd5e1 !important;
+    background: #f8fafc !important;
+    color: transparent !important; /* Standard text hide */
+}
+
+#albumFiles:hover {
+    border-color: var(--adm-gold) !important;
+    background: rgba(255, 184, 0, 0.02) !important;
+}
+
+/* 4. Upload Status Glow */
+#uploadStatus {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 50px;
+    background: rgba(255, 184, 0, 0.1);
+    color: var(--adm-gold);
+    font-size: 0.85rem;
+    margin-top: 15px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.02); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 5. Inventory Preview Cards (Latest Uploads) */
+.admin-gallery-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 15px;
+    border: 1px solid #eef2f6;
+    transition: var(--transition);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-gallery-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    border-color: var(--adm-gold);
+}
+
+.admin-gallery-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+/* 6. Delete Button Redesign */
+.del-btn-small {
+    width: 100%;
+    padding: 10px;
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.del-btn-small:hover {
+    background: #ef4444;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+}
+
+/* 7. YouTube Tag in Admin */
+.yt-indicator {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #ff0000;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 900;
+}
+        .admin-nav-btn {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 16px 20px;
+            border-radius: 15px;
+            text-align: left;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .admin-nav-btn.active, .admin-nav-btn:hover {
+            background: rgba(255, 184, 0, 0.15);
+            color: var(--adm-gold);
+        }
+
+        /* MAIN VIEWPORT */
+        .admin-viewport { margin-left: 280px; width: calc(100% - 280px); padding: 60px; }
+
+        /* CARD & FORM DECORATION */
+        .admin-card-full {
+            background: var(--adm-card);
+            padding: 50px;
+            border-radius: 35px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.03);
+        }
+
+        .admin-card-full h2 { font-size: 2rem; font-weight: 800; margin-bottom: 40px; border-bottom: 3px solid var(--adm-gold); display: inline-block; padding-bottom: 10px; }
+
+        .admin-field {
+            width: 100%;
+            padding: 18px 25px;
+            border-radius: 15px;
+            border: 2px solid #E2E8F0;
+            background: #F8FAFC;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            transition: 0.3s;
+        }
+
+        .admin-field:focus { border-color: var(--adm-gold); background: #fff; outline: none; }
+
+        .save-btn {
+            background: var(--adm-gold);
+            color: var(--adm-navy);
+            width: 100%;
+            padding: 20px;
+            border-radius: 15px;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 25px rgba(255, 184, 0, 0.25);
+            transition: var(--transition);
+        }
+
+        .save-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 184, 0, 0.35); }
+
+        /* PREVIEW BOX */
+        #previewBox { width: 100%; height: 250px; border-radius: 20px; margin-bottom: 25px; overflow: hidden; display: none; border: 1px solid #ddd; }
+        #previewBox img { width: 100%; height: 100%; object-fit: cover; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        /* ==========================================================================
+   ADMIN BOOKING & REVENUE STYLES
+   ========================================================================== */
+
+/* 1. REVENUE COUNTER GLOW */
+#totalRevenueDisplay {
+    text-shadow: 0 0 10px rgba(255, 184, 0, 0.3);
+    letter-spacing: 1px;
+}
+
+/* 2. BOOKING LIST CARDS */
+#bookingList {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.booking-item {
+    background: #f8fafc; 
+    padding: 25px; 
+    border-radius: 20px; 
+    border: 1px solid #e2e8f0; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    transition: var(--transition);
+}
+
+.booking-item:hover {
+    transform: translateX(10px);
+    border-color: var(--adm-gold);
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* 3. CUSTOMER INFO STYLING */
+.cust-name {
+    font-size: 1.2rem; 
+    font-weight: 800; 
+    color: var(--adm-navy);
+    display: block;
+}
+
+.cust-meta {
+    color: #64748b; 
+    font-size: 0.95rem; 
+    margin: 8px 0;
+    display: flex;
+    gap: 15px;
+}
+
+.trek-tag {
+    display: inline-block;
+    background: rgba(255, 184, 0, 0.1);
+    color: var(--adm-gold);
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+/* 4. PRICE & DELETE UI */
+.price-display {
+    font-size: 1.4rem; 
+    font-weight: 900; 
+    color: #10b981; /* Success Green */
+    margin-bottom: 10px;
+}
+/* Styling for the small preview cards in Admin */
+    .admin-gallery-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 15px;
+        border: 1px solid #e2e8f0;
+        transition: 0.3s;
+    }
+    .admin-gallery-card:hover { border-color: #ef4444; transform: translateY(-5px); }
+    .admin-gallery-card img, .admin-gallery-card video {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 12px;
+    }
+    .del-btn-small {
+        width: 100%;
+        padding: 10px;
+        background: #fee2e2;
+        color: #ef4444;
+        border: none;
+        border-radius: 10px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .del-btn-small:hover { background: #ef4444; color: #fff; }
+.del-booking-btn {
+    background: #fee2e2; 
+    color: #ef4444; 
+    border: 1px solid #fecaca; 
+    padding: 10px 20px; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    font-weight: 800;
+    transition: 0.3s;
+}
+
+.del-booking-btn:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* 5. RESPONSIVE BOOKINGS */
+@media (max-width: 768px) {
+    .booking-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    .booking-item div:last-child {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+/* BACK TO SITE PREMIUM STYLE */
+.back-to-site {
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px dashed rgba(255, 184, 0, 0.3) !important;
+    color: var(--adm-gold) !important;
+}
+
+.back-to-site:hover {
+    background: var(--adm-gold) !important;
+    color: var(--adm-navy) !important;
+    transform: translateX(-5px);
+}
+
+.back-to-site i {
+    transition: transform 0.3s ease;
+}
+
+.back-to-site:hover i {
+    transform: translateX(-5px);
+}
+@media (max-width: 768px) {
+    .admin-container { grid-template-columns: 1fr; }
+    .admin-sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        padding: 10px;
+        z-index: 1000;
+    }
+    .admin-nav-btn span { display: none; } /* Sirf icons dikhenge mobile par */
+    .admin-main { margin-bottom: 80px; padding: 15px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+    
+
+<script src="js/admin.js"></script>
+</head>
+<body class="admin-mode">
+
+    <aside class="admin-sidebar">
+        <div class="admin-brand">ITP <span>Master</span></div>
+        <nav>
+    <button class="admin-nav-btn active" onclick="showTab('addTab', this)"><i class="fas fa-plus"></i> Add Content</button>
+    <button class="admin-nav-btn" onclick="showTab('bookingTab', this)"><i class="fas fa-receipt"></i> Bookings</button> 
+    <button class="admin-nav-btn" onclick="showTab('manageTab', this)"><i class="fas fa-tasks"></i> Inventory</button>
+   <button class="admin-nav-btn" onclick="showTab('galleryTab', this)">
+    <i class="fas fa-camera-retro"></i> Gallery Hub
+</button>
+    <a href="index.html" class="admin-nav-btn back-to-site">
+    <i class="fas fa-arrow-left"></i> Back to Site
+</a>
+</nav>
+        <div style="margin-top: auto; font-size: 0.8rem; opacity: 0.5;">Srinagar Garhwal Hub</div>
+    </aside>
+
+    <main class="admin-viewport">
+        <section id="addTab" class="tab-content active">
+            <div class="admin-card-full">
+                <h2>Publish Content</h2>
+                <form onsubmit="window.saveToCloud(event)">
+                    <select id="type" class="admin-field" required>
+                        <option value="tour">Trekking Package</option>
+                        <option value="blog">Travel Blog</option>
+                    </select>
+                    <input type="text" id="title" class="admin-field" placeholder="Official Title" required>
+                    <input type="number" id="price" class="admin-field" placeholder="Price (₹)">
+                    
+                    <div id="previewBox"><img id="previewImg" src=""></div>
+                    <input type="file" id="fileInput" class="admin-field" accept="image/*" onchange="preview(this)">
+                    <input type="text" id="imgUrl" class="admin-field" placeholder="Or Paste Image URL">
+                    
+                    <textarea id="desc" class="admin-field" rows="3" placeholder="Short Card Summary" required></textarea>
+                    <textarea id="content" class="admin-field" rows="6" placeholder="Full Blog Article (For Stories Page)"></textarea>
+                    <textarea id="itinerary" class="admin-field" rows="3" placeholder="Day 1 | Day 2 | Day 3..."></textarea>
+                    
+                    <button type="submit" class="save-btn"><i class="fas fa-check-circle"></i> Save to Database</button>
+                </form>
+            </div>
+        </section>
+        <section id="galleryTab" class="tab-content">
+    <div class="admin-card-full">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2>Himalayan Gallery Engine</h2>
+            <div style="background: rgba(255, 184, 0, 0.1); color: var(--adm-gold); padding: 8px 20px; border-radius: 50px; font-weight: 800; font-size: 0.8rem;">
+                <i class="fas fa-bolt"></i> HYBRID STORAGE ENABLED
+            </div>
+        </div>
+
+        <div style="background: #f8fafc; padding: 40px; border-radius: 30px; border: 2px solid #e2e8f0; margin-bottom: 60px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <label style="font-weight: 700; color: #64748b; margin-bottom: 8px; display: block;">Moment Title</label>
+                    <input type="text" id="albumTitle" class="admin-field" placeholder="e.g. Kedarkantha Summit Night">
+                </div>
+                <div>
+                    <label style="font-weight: 700; color: #64748b; margin-bottom: 8px; display: block;">YouTube Link (Optional)</label>
+                    <input type="text" id="ytLink" class="admin-field" placeholder="Paste Video URL here...">
+                </div>
+            </div>
+
+            <label style="font-weight: 700; color: #64748b; margin-bottom: 8px; display: block;">Short Description</label>
+            <textarea id="albumDesc" class="admin-field" rows="3" placeholder="Tell the story behind these captures..."></textarea>
+
+            <label style="font-weight: 700; color: #64748b; margin-bottom: 8px; display: block;">Upload Photos (Multiple)</label>
+            <div style="position: relative; margin-bottom: 30px;">
+                <input type="file" id="albumFiles" multiple accept="image/*" class="admin-field" 
+                       style="padding: 50px; text-align: center; border: 2px dashed var(--adm-gold); background: #fff; cursor: pointer;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; text-align: center;">
+                    <i class="fas fa-images" style="font-size: 2.5rem; color: var(--adm-gold); margin-bottom: 10px;"></i>
+                    <p style="font-weight: 800; color: var(--adm-navy);">SELECT OR DRAG PHOTOS</p>
+                    <p style="font-size: 0.8rem; color: #94a3b8;">Max performance via Firebase Storage</p>
+                </div>
+            </div>
+
+            <button onclick="saveSupremeAlbum()" id="uploadBtn" class="save-btn" style="background: var(--adm-navy); color: #fff;">
+                <i class="fas fa-paper-plane"></i> SYNC TO HIMALAYAN ARCHIVES
+            </button>
+            <div id="uploadStatus" style="margin-top: 20px; text-align: center; font-weight: 800; color: var(--adm-gold);"></div>
+        </div>
+
+        <div style="border-top: 2px solid #eee; padding-top: 40px;">
+            <h3 style="margin-bottom: 25px; font-weight: 800; display: flex; align-items: center; gap: 12px;">
+                <i class="fas fa-trash-alt" style="color: #ef4444;"></i> Manage Existing Archives
+            </h3>
+            
+            <div id="adminGalleryList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;">
+                <p style="color: #94a3b8; grid-column: 1/-1; text-align: center;">Scanning the peaks for archives...</p>
+            </div>
+        </div>
+    </div>
+</section>
+            <section id="bookingTab" class="tab-content">
+    <div class="admin-card-full">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2>Trek Bookings</h2>
+            <div style="background: var(--adm-navy); color: var(--adm-gold); padding: 10px 25px; border-radius: 50px; font-weight: 800;">
+                Total Revenue: <span id="totalRevenueDisplay">₹0</span>
+            </div>
+        </div>
+        <div id="bookingList">
+            </div>
+    </div>
+</section>
+        <section id="manageTab" class="tab-content">
+            <div class="admin-card-full">
+                <h2>Manage Inventory</h2>
+                <div id="inventoryList"></div>
+            </div>
+        </section>
+    </main>
+<script src="js/admin.js"></script>
+<script src="js/app.js"></script>
+<script src="js/render.js"></script>
+</body>
+</html>
